@@ -1,0 +1,264 @@
+ 
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+<style>
+        /* table.dataTable thead th {
+            background-color: white;
+            color: black;
+            font-weight: 600;
+            position: relative;
+        } */
+        table.table td {
+            border: none;
+            padding: 20px;
+            vertical-align: middle;
+            text-align: left;
+            color: #000000;
+        }
+         table.table th {
+            border: none;
+            padding: 12px;
+            vertical-align: middle;
+            background-color: #F5F5F5;
+            color: #202020;
+            font-weight: 600;
+        }
+        table.table tbody td {
+            border-bottom: 1px solid #6c757d;
+        }
+     
+        /* .status {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+        } */
+/* 
+        .status.pass {
+            color: #28a745;
+            background-color: #d4edda;
+        }
+        .status.fail {
+            color: #dc3545;
+            background-color: #f8d7da;
+        }
+        .status.not-started {
+            color: #ff9800;
+            background-color: #fff3cd;
+        } */
+        table.dataTable thead .sorting:before,
+        table.dataTable thead .sorting:after,
+        table.dataTable thead .sorting_asc:before,
+        table.dataTable thead .sorting_desc:after {
+            display: none !important;
+        }
+        .sort-icon {
+            display: inline-block;
+            margin-left: 6px;
+        }
+        .chevron {
+            display: block;
+            width: 5px;
+            height: 5px;
+            border: solid black;
+            border-width: 0 2px 2px 0;
+            padding: 2px;
+            margin: 1px auto;
+            border-radius: 2px;
+        }
+        .chevron-up {
+            transform: rotate(-135deg);
+        }
+        .chevron-down {
+            transform: rotate(45deg);
+        }
+        .sorting.asc .chevron-up {
+            border-color: #000;
+        }
+        .sorting.desc .chevron-down {
+            border-color: #000;
+        }
+        table.table tbody td {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        div.dt-button-collection {
+            z-index: 1051 !important;
+            min-width: 160px;
+            border-radius: 0.25rem;
+            border: 1px solid #ddd;
+            background: #fff;
+            padding: 0;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+        .dt-button-collection .dt-button {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            background: #fff;
+            border: none;
+            text-align: left;
+            color: #000;
+        }
+        .dt-button-collection .dt-button:hover {
+            background-color: #f8f9fa;
+        }
+.btn-purple {
+    background-color: #9143F5 !important;
+    color: #fff !important;
+    border: none !important;
+    transition: background-color 0.3s ease;
+}
+.btn-purple:hover {
+    background-color: #7329d9 !important;
+    color: #fff !important;
+}
+.dataTables_length select {
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #ccc;
+}
+.custom-progress {
+    background-color: #eee;
+    border-radius: 30px;
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
+}
+.custom-progress-bar {
+    background-color: #28a745; /* Bootstrap green */
+    color: white;
+    text-align: center;
+    height: 100%;
+    line-height: 20px;
+    border-radius: 30px;
+    transition: width 0.6s ease;
+    font-weight: bold;
+    font-size: 12px;
+}
+/* Pagination styling like your purple example */
+/* Pagination container */
+.dataTables_wrapper .dataTables_paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 6px;
+}
+/* Pagination buttons - smaller and cleaner */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #495057;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+/* Remove black hover effect */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #e9ecef;
+    color: #495057;
+}
+/* Active page button */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #9333ea; /* purple */
+    color: white !important;
+    border-color: #9333ea;
+    
+}
+/* Disabled buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #adb5bd !important;
+    border-color: #dee2e6;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+/* Remove outer border highlight/focus */
+.dataTables_wrapper .dataTables_paginate .paginate_button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+/* Pagination container */
+.dataTables_wrapper .dataTables_paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 4px;
+}
+/* Pagination numbers and arrows */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #d1d5db; 
+    border-radius: 4px;
+    background-color: white;
+    color: #000;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    }
+
+    .dataTables_wrapper .row.mt-3 {
+    background-color: #F5F5F5;
+    color: #202020;
+    padding: 12px;
+    margin: 1px;
+}
+
+#user_reports {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.dt-buttons {
+    margin-bottom: 7px;
+}
+
+.dataTables_info{
+    margin-top: 14px;
+}
+
+
+    </style>
+    <div id="users_reports" class="mt-4 border border rounded p-3">
+        <div class="row">
+            <div class="col-12 user_reports" id="user_reports">
+                <table id="userreportTable" class="table" style="width:100%">
+                    <thead>
+                        <tr>                             
+                            <th class="sorting">Batch<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Username<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Email<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Degree<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Department<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">CGPA<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Question Type<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Aptitude<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Mains<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Total score<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Work on chennai<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Backlog<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Offer in hand<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Immediate Joiner<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                            <th class="sorting">Time created<span class="sort-icon"><span class="chevron chevron-up"></span><span class="chevron chevron-down"></span></span></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+ 
+ 

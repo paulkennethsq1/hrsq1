@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{pageTitle}}</title>
+<style>
+
+      body {
+
+        margin: 0;
+
+        font-family: "Segoe UI", Arial, sans-serif;
+
+        background: #f9fafb;
+
+        color: #1f2937;
+
+        line-height: 1.6;
+
+        padding: 20px;
+
+      }
+
+      .container {
+
+        max-width: 800px;
+
+        margin: auto;
+
+        background: #fff;
+
+        border-radius: 12px;
+
+        padding: 30px;
+
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+      }
+
+      .logo {
+
+        text-align: center;
+
+        margin-bottom: 20px;
+
+      }
+
+      .logo img {
+
+        width: 100px;
+
+        height: auto;
+
+      }
+
+      h1 {
+
+        text-align: center;
+
+        font-size: 24px;
+
+        margin-bottom: 25px;
+
+        color: #2563eb;
+
+      }
+
+      h2 {
+
+        margin-top: 25px;
+
+        font-size: 20px;
+
+        color: #111827;
+
+        border-left: 5px solid #2563eb;
+
+        padding-left: 10px;
+
+      }
+
+      ul {
+
+        margin: 15px 0 20px 20px;
+
+      }
+
+      li {
+
+        margin-bottom: 10px;
+
+      }
+
+      .do {
+
+        color: #065f46;
+
+      }
+
+      .dont {
+
+        color: #b91c1c;
+
+      }
+
+      .btn {
+
+        display: block;
+
+        width: fit-content;
+
+        margin: 30px auto 0;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        background: linear-gradient(90deg, #2563eb, #3b82f6);
+
+        color: #fff;
+
+        font-size: 16px;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+      }
+
+      .btn:hover {
+
+        background: #1d4ed8;
+
+        transform: translateY(-2px);
+
+      }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">
+<img src="{{logoUrl}}" alt="Company Logo" />
+</div>
+<h1>{{heading}}</h1>
+ 
+      <h2>Do’s ✅</h2>
+<ul class="do">
+
+        {{#dos}}
+<li>{{.}}</li>
+
+        {{/dos}}
+</ul>
+ 
+      <h2>Don’ts ❌</h2>
+<ul class="dont">
+
+        {{#donts}}
+<li>{{.}}</li>
+
+        {{/donts}}
+</ul>
+ 
+      <a href="{{registerLink}}" class="btn">{{registerButton}}</a>
+</div>
+</body>
+</html>
+
+
+ 

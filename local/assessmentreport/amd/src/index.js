@@ -1,0 +1,150 @@
+require.config({
+    paths: {
+        'datatables.net': 'https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min',
+        'datatables.net-bs4': 'https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min',
+        'datatables.net-buttons': 'https://cdn.datatables.net/buttons/2.3.3/js/dataTables.buttons.min',
+        'datatables.net-buttons-bs4': 'https://cdn.datatables.net/buttons/2.3.3/js/buttons.bootstrap4.min',
+        'datatables.net-buttons-colvis': 'https://cdn.datatables.net/buttons/2.3.3/js/buttons.colVis.min',
+        'datatables.net-buttons-print': 'https://cdn.datatables.net/buttons/2.3.3/js/buttons.print.min',
+        'datatables.net-buttons-html': 'https://cdn.datatables.net/buttons/2.3.3/js/buttons.html5.min',
+        'datatables.net-responsive': 'https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min',
+        'datatables.net-responsive-bs4': 'https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap4.min',
+        'datatables.net-scroller-bs4': 'https://cdn.datatables.net/scroller/2.0.0/js/dataTables.scroller.min',
+        'datatables.net-select-bs4': 'https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min'
+    }
+});
+
+define([
+    'jquery',
+    'core/str',
+    'core/ajax',
+    'core/notification',
+    'datatables.net',
+    'datatables.net-bs4',
+    'datatables.net-buttons',
+    'datatables.net-buttons-bs4',
+    'datatables.net-buttons-colvis',
+    'datatables.net-buttons-print',
+    'datatables.net-buttons-html',
+    'datatables.net-responsive',
+    'datatables.net-responsive-bs4',
+    'datatables.net-scroller-bs4',
+    'datatables.net-select-bs4'
+], function($, str, ajax, notification) {
+
+    var userlist = {
+        dom: {
+            main: null,
+            table: null
+        },
+        langs: {
+            somethingWentWrong: null,
+            userlist: null
+        },
+        variables: {
+            dataTableReference: null,
+            baseurl: null
+        },
+
+        actions: {
+            getString: function() {
+
+                str.get_strings([
+                    { key: 'something_went_wrong', component: 'local_reporttab' },
+                    { key: 'user_reports_title', component: 'local_reporttab' }
+                ]).done(function(s) {
+                    userlist.langs.somethingWentWrong = s[0];
+                    userlist.langs.userlist = s[1];
+                    userlist.init();
+                });
+            },
+
+            getuserlist: function() {
+                var promises = ajax.call([{
+                    methodname: 'local_assessmentreport_get_user_reports',
+                    args: {}
+                }]);
+
+                promises[0].done(function(response) {
+                    if (userlist.variables.dataTableReference) {
+                        userlist.variables.dataTableReference.clear();
+                        userlist.variables.dataTableReference.rows.add(response.data);
+                        userlist.variables.dataTableReference.draw();
+                    }
+                }).fail(function() {
+                    notification.addNotification({
+                        type: 'error',
+                        message: userlist.langs.somethingWentWrong
+                    });
+                });
+            }
+        },
+
+        init: function() {
+
+            userlist.dom.main = $('#user_reports');
+            userlist.dom.table = userlist.dom.main.find('#userreportTable');
+            userlist.variables.dataTableReference = userlist.dom.table.DataTable({
+                responsive: true,
+                scrollCollapse: true,
+                serverSide: false,
+                processing: true,
+                order: [[0, "asc"]],
+                
+                buttons: [
+                    { extend: 'copy', className: 'btn btn-sm btn-purple text-white me-2', text: 'Copy' },
+                    { extend: 'csv', className: 'btn btn-sm btn-purple text-white me-2', text: 'CSV' },
+                    { extend: 'excel', className: 'btn btn-sm btn-purple text-white me-2', text: 'Excel' },
+                    { extend: 'print', className: 'btn btn-sm btn-purple text-white', text: 'Print' }
+                ],
+              columns: [
+                    { data: 'batch' },           // optional
+                    { data: 'username' },
+                    { data: 'email' },
+                    { data: 'degree' },
+                    { data: 'department' },
+                    { data: 'cgpa' },
+                    { data: 'questiontype' },
+                    { data: 'correct25' },       // Aptitude
+                    { data: 'correct2665' },     // Mains
+                    { data: 'total_correct' },   // Total score
+                    { data: 'work_on_chennai' },
+                    { data: 'backlog' },
+                    { data: 'offerinhand' },
+                    { data: 'immediatejoin' },
+                    { data: 'timecreated' }
+                ],
+
+
+                dom: 
+                "<'row mb-3 mt-5'<'col-md-12 d-flex justify-content-end align-items-center mt-5'Bf>>" +
+                     "<'row'<'col-sm-12'tr>>" +
+                     "<'row mt-3'<'col-sm-12 col-md-5 dt-info'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
+                initComplete: function() {
+                    $('.dt-buttons').addClass('pr-2 d-flex');
+                    $('.dataTables_filter label').each(function () {
+                        const $label = $(this);
+                        const $input = $label.find('input');
+                        $input.attr('placeholder', 'Search');
+                        $label.contents().filter(function () { return this.nodeType === 3; }).remove();
+                    });
+                },
+                language: {
+                    emptyTable: "No data available",
+                    paginate: {
+                        previous: "<",
+                        next: ">"
+                    }
+                }
+            });
+
+            userlist.actions.getuserlist();
+        }
+    };
+
+    return {
+        init: userlist.actions.getString
+    };
+    
+});
+
