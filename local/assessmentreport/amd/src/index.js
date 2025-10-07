@@ -59,10 +59,12 @@ define([
                 });
             },
 
-            getuserlist: function() {
+            getuserlist: function(selectedBatch) {
                 var promises = ajax.call([{
                     methodname: 'local_assessmentreport_get_user_reports',
-                    args: {}
+                    args: {
+                            batch : selectedBatch,
+                    }
                 }]);
 
                 promises[0].done(function(response) {
@@ -101,6 +103,7 @@ define([
                     { data: 'batch' },           // optional
                     { data: 'username' },
                     { data: 'email' },
+                    { data: 'phone' },
                     { data: 'degree' },
                     { data: 'department' },
                     { data: 'cgpa' },
@@ -121,14 +124,35 @@ define([
                      "<'row'<'col-sm-12'tr>>" +
                      "<'row mt-3'<'col-sm-12 col-md-5 dt-info'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
                 initComplete: function() {
-                    $('.dt-buttons').addClass('pr-2 d-flex');
+                    $('.dt-buttons').addClass('pr-2 d-flex align-items-center');
+
+                    // Clean up the search box label text
                     $('.dataTables_filter label').each(function () {
                         const $label = $(this);
                         const $input = $label.find('input');
                         $input.attr('placeholder', 'Search');
                         $label.contents().filter(function () { return this.nodeType === 3; }).remove();
                     });
+
+                    // ✅ Create batch dropdown with "All Batch" as first option
+                    var $batchSelector = $('<select id="batchSelector" class="form-select mb-2 mr-2" style="border-radius:12px; padding:8px 12px; width:auto; min-width:150px;"></select>');
+                    $batchSelector.append('<option value="0">All Batch</option>'); // empty value = show all
+                     for (var i = 1; i <= 10; i++) {
+                        $batchSelector.append('<option value="' + i + '">Batch ' + i + '</option>');
+                    }
+
+                    // Append the dropdown after the DataTables buttons
+                    $('.dt-buttons').after($batchSelector);
+
+                    // Filter table on batch selection
+                    $('#batchSelector').on('change', function() {
+                        var selectedBatch = $(this).val();
+                        userlist.actions.getuserlist(selectedBatch);
+                    });
                 },
+
+
+
                 language: {
                     emptyTable: "No data available",
                     paginate: {
@@ -137,8 +161,8 @@ define([
                     }
                 }
             });
-
-            userlist.actions.getuserlist();
+            var selectedBatch = 0;
+            userlist.actions.getuserlist(selectedBatch);
         }
     };
 

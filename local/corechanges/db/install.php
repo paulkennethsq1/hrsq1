@@ -78,5 +78,15 @@ function xmldb_local_corechanges_install() {
     if (!$dbman->field_exists($table, $field)) {
         $dbman->add_field($table, $field);
     }
+
+    $field = new xmldb_field('collegename', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'fathername');
+    if (!$dbman->field_exists($table, $field)) {
+        $dbman->add_field($table, $field);
+    }
+
+    $field = new xmldb_field('gender', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'collegename');
+    if (!$dbman->field_exists($table, $field)) {
+        $dbman->add_field($table, $field);
+    }
     return true;
 }

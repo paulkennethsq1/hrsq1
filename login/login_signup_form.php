@@ -50,6 +50,17 @@ class login_signup_form extends moodleform {
         $this->add_text_row($mform, 'email', 'Email', 'Please enter a valid email', PARAM_EMAIL);
         $this->add_text_row($mform, 'phone', 'Mobile Number', 'Mobile number required', PARAM_INT);
 
+        $genderoptions = [
+            '' => 'Please select',
+            'male' => 'Male',
+            'female' => 'Female',
+            'other' => 'Pefer not to say',
+
+        ];
+        $this->add_select_row($mform, 'gender', 'Gender', $genderoptions, 'Select gender', ['class' => 'form-control w-100']);
+
+        $this->add_text_row($mform, 'collegename', 'College Name', 'College name is  required', PARAM_INT);
+
         $degreeoptions = [
             '' => 'Please select',
             'BE' => 'BE',
@@ -64,6 +75,12 @@ class login_signup_form extends moodleform {
         ];
         $this->add_select_row($mform, 'degree', 'Degree', $degreeoptions, 'Select degree', ['class' => 'form-control w-100']);
 
+        $mform->addElement('html', '</div>'); 
+
+        $mform->addElement('html', '<div class="col-md-6">');
+
+        
+
         $departmentoptions = [
             '' => 'Please select',
             'Cyber Security' => 'Cyber Security',
@@ -71,11 +88,6 @@ class login_signup_form extends moodleform {
             'Others' => 'Others'
         ];
         $this->add_select_row($mform, 'department', 'Department', $departmentoptions, 'Select department');
-
-        $mform->addElement('html', '</div>'); 
-
-        $mform->addElement('html', '<div class="col-md-6">');
-
 
         $passingoptions = [
             '' => 'Please select',

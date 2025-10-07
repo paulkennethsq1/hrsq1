@@ -21,13 +21,22 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-function local_assessmentreport_get_user_reports() {
+function local_assessmentreport_get_user_reports($batch) {
     global $DB, $USER;
+    try {
+    // Example: $batch can be 0 (all) or a specific batch number
+    $batch = isset($batch) ? $batch : 0;
 
-try {
+    $whereBatch = '';
+    $params = [];
+
+    if ($batch != 0) { 
+        $whereBatch = " AND u.batch = :batch";
+        $params['batch'] = $batch;
+    }
 
     $sql = "SELECT 
-                 u.id AS userid,  
+                u.id AS userid,  
                 u.batch,
                 CONCAT(u.firstname, ' ', u.lastname) AS username,
                 u.email,
@@ -47,7 +56,6 @@ try {
                 SUM(CASE WHEN qa.slot BETWEEN 1 AND 25 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct25,
                 SUM(CASE WHEN qa.slot BETWEEN 26 AND 65 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct2665,
                 SUM(CASE WHEN qas.fraction > 0 THEN 1 ELSE 0 END) AS total_correct
-
             FROM sq_user u
             JOIN sq_quiz_attempts qa_main 
                 ON qa_main.userid = u.id
@@ -61,42 +69,72 @@ try {
                     FROM sq_question_attempt_steps 
                     WHERE questionattemptid = qa.id
                 )
-
+            WHERE 1=1 $whereBatch
             GROUP BY u.id, username, u.degree, u.department, u.cgpa, u.yearofpassedout, u.questiontype,
                     u.relocate, u.backlog, u.immediatejoin, u.city, qa_main.quiz
             ORDER BY username, qa_main.quiz";
 
-    $records = $DB->get_records_sql($sql);
+    $records = $DB->get_records_sql($sql, $params);
 
-    $cleaned = [];
 
-    foreach ($records as $record) {
-        $cleaned[] = [
-            'username' => (string)($record->username),
-            'batch' => (string)($record->batch),
-            'email' => (string)($record->email),
-            'phone' => (string)($record->phone),
-            'degree' => (string)($record->degree),
-            'department' => (string)($record->department),
-            'cgpa' => (string)($record->cgpa),
-            'yearofpassedout' => (string)($record->yearofpassedout),
-            'questiontype' => (string)($record->questiontype),
-            'work_on_chennai' => $record->work_on_chennai == 1 ? 'Yes' : 'No',
-            'backlog'         => $record->backlog == 1 ? 'Yes' : 'No',
-            'offerinhand'     => $record->offerinhand == 1 ? 'Yes' : 'No',
-            'immediatejoin'   => $record->immediatejoin == 1 ? 'Yes' : 'No',
-            'city' => (string)($record->city),
-            'correct25' => (string)($record->correct25),
-            'correct2665' => (string)($record->correct2665 ),
-            'total_correct' => (string)($record->total_correct ),
-            'timecreated' => isset($record->timecreated) ? date('Y-m-d H:i:s', $record->timecreated) : null,
-        ];
+        $cleaned = [];
+
+        foreach ($records as $record) {
+            $cleaned[] = [
+                'username' => (string)$record->username,
+                'batch' => (string)$record->batch,
+                'email' => (string)$record->email,
+                'phone' => (string)$record->phone,
+                'degree' => (string)$record->degree,
+                'department' => (string)$record->department,
+                'cgpa' => (string)$record->cgpa,
+                'yearofpassedout' => (string)$record->yearofpassedout,
+                'questiontype' => (string)$record->questiontype,
+                'work_on_chennai' => $record->work_on_chennai == 1 ? 'Yes' : 'No',
+                'backlog'         => $record->backlog == 1 ? 'Yes' : 'No',
+                'offerinhand'     => $record->offerinhand == 1 ? 'Yes' : 'No',
+                'immediatejoin'   => $record->immediatejoin == 1 ? 'Yes' : 'No',
+                'city' => (string)$record->city,
+                'correct25' => (string)$record->correct25,
+                'correct2665' => (string)$record->correct2665,
+                'total_correct' => (string)$record->total_correct,
+                'timecreated' => isset($record->timecreated) ? time_ago($record->timecreated) : null,
+            ];
+        }
+        return ['data' => $cleaned];
+
+    } catch (Exception $e) {
+        return ['data' => []]; 
     }
-
-    return ['data' => $cleaned];
-
-} catch (Exception $e) {
-    return ['data' => []]; 
 }
 
+
+
+function time_ago($timestamp) {
+    $diff = time() - $timestamp;
+
+    if ($diff < 60) {
+        return 'Just now';
+    } elseif ($diff < 3600) {
+        $minutes = floor($diff / 60);
+        return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 86400) {
+        $hours = floor($diff / 3600);
+        return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 172800) {
+        return 'Yesterday';
+    } elseif ($diff < 604800) {
+        $days = floor($diff / 86400);
+        return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 2592000) {
+        $weeks = floor($diff / 604800);
+        return $weeks . ' week' . ($weeks > 1 ? 's' : '') . ' ago';
+    } elseif ($diff < 31536000) {
+        $months = floor($diff / 2592000);
+        return $months . ' month' . ($months > 1 ? 's' : '') . ' ago';
+    } else {
+        $years = floor($diff / 31536000);
+        return $years . ' year' . ($years > 1 ? 's' : '') . ' ago';
+    }
 }
+

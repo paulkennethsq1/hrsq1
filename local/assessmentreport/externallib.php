@@ -36,12 +36,12 @@ class local_assessmentreport_external extends external_api {
      */
     public static function get_user_reports_parameters() {
         return new external_function_parameters([
-          
+           'batch' => new external_value(PARAM_INT, '')
         ]);
     }
 
-    public static function get_user_reports() {
-        return local_assessmentreport_get_user_reports();
+    public static function get_user_reports($batch) {
+        return local_assessmentreport_get_user_reports($batch);
     }
 
     public static function get_user_reports_returns() {
@@ -50,6 +50,7 @@ class local_assessmentreport_external extends external_api {
                 new external_single_structure([
                     'username' => new external_value(PARAM_TEXT, 'username'),
                     'email' => new external_value(PARAM_TEXT, 'User email'),
+                    'phone' => new external_value(PARAM_TEXT, 'User phone'),
                     'batch' => new external_value(PARAM_TEXT, 'Batch', VALUE_OPTIONAL),
                     'degree' => new external_value(PARAM_TEXT, 'Degree', VALUE_OPTIONAL),
                     'department' => new external_value(PARAM_TEXT, 'Department', VALUE_OPTIONAL),

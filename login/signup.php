@@ -16,9 +16,10 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     try {
 
-        $firstname = trim($data->firstname);
-        $lastname  = trim($data->lastname);
-        $fathername = trim($data->fathername);
+        $firstname  = strtolower(preg_replace("/[^a-z0-9]/", "", trim($data->firstname)));
+        $lastname   = strtolower(preg_replace("/[^a-z0-9]/", "", trim($data->lastname)));
+        $fathername = strtolower(preg_replace("/[^a-z0-9]/", "", trim($data->fathername)));
+
  
         $user = new stdClass();
         $user->username  = core_text::strtolower($firstname . $lastname . $fathername);
@@ -54,6 +55,8 @@ if ($form->is_cancelled()) {
         $customuser->fathername  = $data->fathername;
         $customuser->immediatejoin = $data->immediate;
         $customuser->offerinhand = $data->offer;
+        $customuser->collegename = $data->collegename;
+        $customuser->gender = $data->gender;
         $customuser->city = $data->city ?? '';
         $customuser->country = 'IN';
 
