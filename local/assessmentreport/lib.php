@@ -54,7 +54,7 @@ function local_assessmentreport_get_user_reports($batch) {
                 qa_main.quiz AS quizid,
                 u.timecreated,
                 SUM(CASE WHEN qa.slot BETWEEN 1 AND 25 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct25,
-                SUM(CASE WHEN qa.slot BETWEEN 26 AND 65 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct2665,
+                SUM(CASE WHEN qa.slot BETWEEN 26 AND 80 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct2665,
                 SUM(CASE WHEN qas.fraction > 0 THEN 1 ELSE 0 END) AS total_correct
             FROM sq_user u
             JOIN sq_quiz_attempts qa_main 
