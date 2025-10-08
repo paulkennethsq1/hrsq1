@@ -16,9 +16,9 @@ if ($form->is_cancelled()) {
 } else if ($data = $form->get_data()) {
     try {
 
-        $firstname  = strtolower(preg_replace("/[^a-z0-9]/", "", trim($data->firstname)));
-        $lastname   = strtolower(preg_replace("/[^a-z0-9]/", "", trim($data->lastname)));
-        $fathername = strtolower(preg_replace("/[^a-z0-9]/", "", trim($data->fathername)));
+        $firstname  = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", trim($data->firstname)));
+        $lastname   = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", trim($data->lastname)));
+        $fathername = strtolower(preg_replace("/[^a-zA-Z0-9]/", "", trim($data->fathername)));
 
  
         $user = new stdClass();
