@@ -34,7 +34,7 @@ $hash = [
         Our hiring team will carefully review your answers and reach out with
         the next steps soon.',
     'footer' => 'If you have any questions, feel free to contact us at
-        hr@example.com',
+        hr.talentacquisition@sq1.security',
     'buttonlink' =>  $CFG->wwwroot . '/local/assessment/index.php',     
     'buttoncontent' => 'Return to Welcome Page'  ,   
     'logourl' => $logourl,

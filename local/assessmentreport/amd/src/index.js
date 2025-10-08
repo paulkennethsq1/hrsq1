@@ -99,28 +99,28 @@ define([
                     { extend: 'excel', className: 'btn btn-sm btn-purple text-white me-2', text: 'Excel' },
                     { extend: 'print', className: 'btn btn-sm btn-purple text-white', text: 'Print' }
                 ],
-              columns: [
-                    { data: 'batch' },           // optional
+                columns: [
+                    { data: 'batch' },          
                     { data: 'username' },
-                    { data: 'email' },
-                    { data: 'phone' },
-                    { data: 'degree' },
+                    { data: 'email', visible: false },         
+                    { data: 'phone', visible: false },       
+                    { data: 'degree', visible: false },
                     { data: 'department' },
-                    { data: 'cgpa' },
+                    { data: 'cgpa', visible: false },  
                     { data: 'questiontype' },
-                    { data: 'correct25' },       // Aptitude
-                    { data: 'correct2665' },     // Mains
-                    { data: 'total_correct' },   // Total score
-                    { data: 'work_on_chennai' },
-                    { data: 'backlog' },
-                    { data: 'offerinhand' },
-                    { data: 'immediatejoin' },
+                    { data: 'correct25' },       
+                    { data: 'correct2665' },     
+                    { data: 'total_correct' },   
+                    { data: 'work_on_chennai', visible: false }, 
+                    { data: 'backlog', visible: false },         
+                    { data: 'offerinhand', visible: false },     
+                    { data: 'immediatejoin', visible: false },
                     { data: 'timecreated' }
                 ],
 
 
                 dom: 
-                "<'row mb-3 mt-5'<'col-md-12 d-flex justify-content-end align-items-center mt-5'Bf>>" +
+                "<'row mb-3'<'col-md-12 d-flex justify-content-end align-items-center'Bf>>" +
                      "<'row'<'col-sm-12'tr>>" +
                      "<'row mt-3'<'col-sm-12 col-md-5 dt-info'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
                 initComplete: function() {

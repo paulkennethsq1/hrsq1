@@ -34,7 +34,7 @@ require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/mod/quiz/report/reportlib.php');
 require_logout();
-redirect(new moodle_url('/login/signup.php'));
+redirect(new moodle_url('/local/assessment/thankyoupage.php'));
 $attemptid = required_param('attempt', PARAM_INT);
 $page      = optional_param('page', 0, PARAM_INT);
 $showall   = optional_param('showall', null, PARAM_BOOL);

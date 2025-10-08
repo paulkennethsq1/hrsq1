@@ -69,7 +69,7 @@ function local_assessmentreport_get_user_reports($batch) {
                     FROM sq_question_attempt_steps 
                     WHERE questionattemptid = qa.id
                 )
-            WHERE 1=1 $whereBatch
+            WHERE 1=1 $whereBatch AND u.id NOT IN (1,2)
             GROUP BY u.id, username, u.degree, u.department, u.cgpa, u.yearofpassedout, u.questiontype,
                     u.relocate, u.backlog, u.immediatejoin, u.city, qa_main.quiz
             ORDER BY username, qa_main.quiz";
