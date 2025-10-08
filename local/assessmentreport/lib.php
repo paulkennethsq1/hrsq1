@@ -38,6 +38,8 @@ function local_assessmentreport_get_user_reports($batch) {
     $sql = "SELECT 
                 u.id AS userid,  
                 u.batch,
+                u.collegename,
+                u.gender,
                 CONCAT(u.firstname, ' ', u.lastname) AS username,
                 u.email,
                 u.phone1 AS phone,
@@ -54,12 +56,12 @@ function local_assessmentreport_get_user_reports($batch) {
                 qa_main.quiz AS quizid,
                 u.timecreated,
                 SUM(CASE WHEN qa.slot BETWEEN 1 AND 25 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct25,
-                SUM(CASE WHEN qa.slot BETWEEN 26 AND 80 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct2665,
+                SUM(CASE WHEN qa.slot BETWEEN 26 AND 65 AND qas.fraction > 0 THEN 1 ELSE 0 END) AS correct2665,
                 SUM(CASE WHEN qas.fraction > 0 THEN 1 ELSE 0 END) AS total_correct
             FROM sq_user u
             JOIN sq_quiz_attempts qa_main 
                 ON qa_main.userid = u.id
-                AND qa_main.quiz IN (9, 10)
+                AND qa_main.quiz IN (9, 10,13,15,16)
             JOIN sq_question_attempts qa 
                 ON qa.questionusageid = qa_main.uniqueid
             JOIN sq_question_attempt_steps qas 
@@ -97,6 +99,8 @@ function local_assessmentreport_get_user_reports($batch) {
                 'city' => (string)$record->city,
                 'correct25' => (string)$record->correct25,
                 'correct2665' => (string)$record->correct2665,
+                'gender' => (string)$record->gender,
+                'collegename' => (string)$record->collegename,
                 'total_correct' => (string)$record->total_correct,
                 'timecreated' => isset($record->timecreated) ? time_ago($record->timecreated) : null,
             ];
