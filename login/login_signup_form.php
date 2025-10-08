@@ -59,7 +59,7 @@ class login_signup_form extends moodleform {
         ];
         $this->add_select_row($mform, 'gender', 'Gender', $genderoptions, 'Select gender', ['class' => 'form-control w-100']);
 
-        $this->add_text_row($mform, 'collegename', 'College Name', 'College name is  required', PARAM_INT);
+        $this->add_text_row($mform, 'collegename', 'College Name', 'College name is  required', PARAM_TEXT);
 
         $degreeoptions = [
             '' => 'Please select',
@@ -192,11 +192,11 @@ class login_signup_form extends moodleform {
         global $DB;
         $errors = parent::validation($data, $files);
 
-        if (!preg_match('/^[a-zA-Z]+$/', $data['firstname'])) {
+        if (!preg_match('/^[a-zA-Z ]+$/', $data['firstname'])) {
             $errors['firstname'] = 'Firstname must contain only letters';
         }
 
-        if (!preg_match('/^[a-zA-Z]+$/', $data['lastname'])) {
+        if (!preg_match('/^[a-zA-Z ]+$/', $data['lastname'])) {
             $errors['lastname'] = 'Lastname must contain only letters';
         }
 
@@ -218,9 +218,10 @@ class login_signup_form extends moodleform {
 
         if (!is_numeric($data['cgpa'])) {
             $errors['cgpa'] = 'CGPA must be a number';
-        } else if ($data['cgpa'] < 50 || $data['cgpa'] > 100) {
-            $errors['cgpa'] = 'CGPA must be between 50 and 100 and no deciaml values allowed';
+        } else if ($data['cgpa'] < 0 || $data['cgpa'] > 10) {
+            $errors['cgpa'] = 'CGPA must be between 0 and 10';
         }
+
 
         if (empty($data['city'])) {
             $errors['city'] = 'City is required';

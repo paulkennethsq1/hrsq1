@@ -34,7 +34,7 @@ $hash = [
         "Provide an active email ID and Mobile number – Double-check before submitting. This will be used for all communication.",
         "Select your correct Batch as per HR instruction, Year of Passing, Degree, and Department from the dropdown lists.",
         "Enter accurate highest degree percentage – As per your academic record.",
-        "Choose the correct option you want to appear for “Test On” Cybersecurity or AI/ML.",
+        "Choose the correct option you want to appear for “Test On” Cybersecurity , AI/ML or Others.",
         "Answer truthfully for Current Backlog, Immediate Joiner, Offer in Hand, and Willingness to work in Chennai.",
         "Fill in Current City correctly – Use the city you are currently residing in.",
         "Review all entries before clicking Register."
