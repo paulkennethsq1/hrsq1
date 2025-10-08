@@ -83,9 +83,9 @@ define([
         },
 
         init: function() {
-
             userlist.dom.main = $('#user_reports');
             userlist.dom.table = userlist.dom.main.find('#userreportTable');
+
             userlist.variables.dataTableReference = userlist.dom.table.DataTable({
                 responsive: true,
                 scrollCollapse: true,
@@ -93,18 +93,44 @@ define([
                 processing: true,
                 order: [[0, "asc"]],
                 
+                // ✅ Buttons with exportOptions to include hidden columns
                 buttons: [
-                    { extend: 'copy', className: 'btn btn-sm btn-purple text-white me-2', text: 'Copy' },
-                    { extend: 'csv', className: 'btn btn-sm btn-purple text-white me-2', text: 'CSV' },
-                    { extend: 'excel', className: 'btn btn-sm btn-purple text-white me-2', text: 'Excel' },
-                    { extend: 'print', className: 'btn btn-sm btn-purple text-white', text: 'Print' }
+                    { 
+                        extend: 'copy', 
+                        className: 'btn btn-sm btn-purple text-white me-2', 
+                        text: 'Copy',
+                        exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] } 
+                    },
+                    { 
+                        extend: 'csv', 
+                        className: 'btn btn-sm btn-purple text-white me-2', 
+                        text: 'CSV',
+                        exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] } 
+                    },
+                    { 
+                        extend: 'excel', 
+                        className: 'btn btn-sm btn-purple text-white me-2', 
+                        text: 'Excel',
+                        exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] } 
+                    },
+                    { 
+                        extend: 'print', 
+                        className: 'btn btn-sm btn-purple text-white', 
+                        text: 'Print',
+                        exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17] } 
+                    }
                 ],
+
+
+                // ✅ Column definitions (hidden columns marked with visible: false)
                 columns: [
                     { data: 'batch' },          
                     { data: 'username' },
                     { data: 'email', visible: false },         
                     { data: 'phone', visible: false },       
                     { data: 'degree', visible: false },
+                    { data: 'collegename', visible: false },
+                    { data: 'gender', visible: false },
                     { data: 'department' },
                     { data: 'cgpa', visible: false },  
                     { data: 'questiontype' },
@@ -118,11 +144,12 @@ define([
                     { data: 'timecreated' }
                 ],
 
-
+                // ✅ Layout
                 dom: 
-                "<'row mb-3'<'col-md-12 d-flex justify-content-end align-items-center'Bf>>" +
-                     "<'row'<'col-sm-12'tr>>" +
-                     "<'row mt-3'<'col-sm-12 col-md-5 dt-info'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
+                    "<'row mb-3'<'col-md-12 d-flex justify-content-end align-items-center'Bf>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row mt-3'<'col-sm-12 col-md-5 dt-info'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>",
+
                 initComplete: function() {
                     $('.dt-buttons').addClass('pr-2 d-flex align-items-center');
 
@@ -137,7 +164,7 @@ define([
                     // ✅ Create batch dropdown with "All Batch" as first option
                     var $batchSelector = $('<select id="batchSelector" class="form-select mb-2 mr-2" style="border-radius:12px; padding:8px 12px; width:auto; min-width:150px;"></select>');
                     $batchSelector.append('<option value="0">All Batch</option>'); // empty value = show all
-                     for (var i = 1; i <= 10; i++) {
+                    for (var i = 1; i <= 10; i++) {
                         $batchSelector.append('<option value="' + i + '">Batch ' + i + '</option>');
                     }
 
@@ -151,8 +178,6 @@ define([
                     });
                 },
 
-
-
                 language: {
                     emptyTable: "No data available",
                     paginate: {
@@ -161,9 +186,11 @@ define([
                     }
                 }
             });
+
             var selectedBatch = 0;
             userlist.actions.getuserlist(selectedBatch);
         }
+
     };
 
     return {

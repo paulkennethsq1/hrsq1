@@ -65,6 +65,8 @@ class local_assessmentreport_external extends external_api {
                     'correct2665' => new external_value(PARAM_TEXT, 'correct2665', VALUE_OPTIONAL),
                     'total_correct' => new external_value(PARAM_TEXT, 'total_correct', VALUE_OPTIONAL),
                     'timecreated' => new external_value(PARAM_TEXT, 'Last login timestamp', VALUE_OPTIONAL),
+                    'collegename' => new external_value(PARAM_TEXT, 'collegename', VALUE_OPTIONAL),
+                    'gender' => new external_value(PARAM_TEXT, 'gender', VALUE_OPTIONAL),
                 ])
             )
         ]);

@@ -103,9 +103,9 @@ class login_signup_form extends moodleform {
 
         $questionoptions = [
             '' => 'Please select',
-            '1997' => 'Cyber security',
-            '1998' => 'AI/ML',
-            '1999' => 'Others'
+            '2000' => 'Cyber security',
+            '2001' => 'AI/ML',
+            '2002' => 'Others'
         ];
         $this->add_select_row($mform, 'questionson', 'Questions On', $questionoptions, 'Select an option');
 
