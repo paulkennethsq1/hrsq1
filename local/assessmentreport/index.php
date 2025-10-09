@@ -9,7 +9,8 @@ require_login();
 require_once($CFG->dirroot . '/local/assessmentreport/lib.php');
  
 $context = context_system::instance();
-require_capability('moodle/site:config', $context);
+require_capability('local/assessmentreport:view', $context);
+
 //  $PAGE->set_pagelayout('embedded');
 $PAGE->set_url(new moodle_url('/local/assessmentreport/index.php'));
 $PAGE->set_context($context);
