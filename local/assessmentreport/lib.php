@@ -81,30 +81,49 @@ function local_assessmentreport_get_user_reports($batch) {
 
         $cleaned = [];
 
-        foreach ($records as $record) {
-            $cleaned[] = [
-                'username' => (string)$record->username,
-                'batch' => (string)$record->batch,
-                'email' => (string)$record->email,
-                'phone' => (string)$record->phone,
-                'degree' => (string)$record->degree,
-                'department' => (string)$record->department,
-                'cgpa' => (string)$record->cgpa,
-                'yearofpassedout' => (string)$record->yearofpassedout,
-                'questiontype' => (string)$record->questiontype,
-                'work_on_chennai' => $record->work_on_chennai == 1 ? 'Yes' : 'No',
-                'backlog'         => $record->backlog == 1 ? 'Yes' : 'No',
-                'offerinhand'     => $record->offerinhand == 1 ? 'Yes' : 'No',
-                'immediatejoin'   => $record->immediatejoin == 1 ? 'Yes' : 'No',
-                'city' => (string)$record->city,
-                'correct25' => (string)$record->correct25,
-                'correct2665' => (string)$record->correct2665,
-                'gender' => (string)$record->gender,
-                'collegename' => (string)$record->collegename,
-                'total_correct' => (string)$record->total_correct,
-                'timecreated' => isset($record->timecreated) ? time_ago($record->timecreated) : null,
-            ];
+    foreach ($records as $record) {
+
+        // Determine question type label
+        switch ($record->questiontype) {
+            case 1997:
+            case 2000:
+                $questiontype = 'Cyber Security';
+                break;
+            case 1998:
+            case 2001:
+                $questiontype = 'AIML';
+                break;
+            case 2002:
+                $questiontype = 'Programming';
+                break;
+            default:
+                $questiontype = 'Unknown';
         }
+
+        $cleaned[] = [
+            'username' => (string)$record->username,
+            'batch' => (string)$record->batch,
+            'email' => (string)$record->email,
+            'phone' => (string)$record->phone,
+            'degree' => (string)$record->degree,
+            'department' => (string)$record->department,
+            'cgpa' => (string)$record->cgpa,
+            'yearofpassedout' => (string)$record->yearofpassedout,
+            'questiontype' => (string)$questiontype, // 👈 mapped label here
+            'work_on_chennai' => $record->work_on_chennai == 1 ? 'Yes' : 'No',
+            'backlog'         => $record->backlog == 1 ? 'Yes' : 'No',
+            'offerinhand'     => $record->offerinhand == 1 ? 'Yes' : 'No',
+            'immediatejoin'   => $record->immediatejoin == 1 ? 'Yes' : 'No',
+            'city' => (string)$record->city,
+            'correct25' => (string)$record->correct25,
+            'correct2665' => (string)$record->correct2665,
+            'gender' => (string)$record->gender,
+            'collegename' => (string)$record->collegename,
+            'total_correct' => (string)$record->total_correct,
+            'timecreated' => isset($record->timecreated) ? time_ago($record->timecreated) : null,
+        ];
+    }
+
         return ['data' => $cleaned];
 
     } catch (Exception $e) {
